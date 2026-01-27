@@ -15,7 +15,8 @@ class User extends Authenticatable
         'username',
         'email',
         'password',
-        'role', // ➔ Tambahkan ini
+        'phone',
+        'role',
     ];
 
     protected $hidden = [
@@ -30,4 +31,12 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    /* ================= RELATIONS ================= */
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
+    }
+
 }

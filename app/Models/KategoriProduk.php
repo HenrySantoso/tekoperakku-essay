@@ -14,6 +14,8 @@ class KategoriProduk extends Model
         'slug',
     ];
 
+    /* ================= RELATIONS ================= */
+
     public static function boot()
     {
         parent::boot();

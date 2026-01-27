@@ -12,6 +12,8 @@ class UsahaPengerajin extends Model
         'pengerajin_id',
     ];
 
+    /* ================= RELATIONS ================= */
+
     // Relasi ke Usaha
     public function usaha()
     {

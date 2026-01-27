@@ -18,6 +18,8 @@ class Usaha extends Model
         'status_usaha',
     ];
 
+    /* ================= RELATIONS ================= */
+
     // public function usahaJenis()
     // {
     //     return $this->hasMany(UsahaJenis::class, 'usaha_id');

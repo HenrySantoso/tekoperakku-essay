@@ -17,6 +17,8 @@ class Pengerajin extends Model
         'alamat_pengerajin',
     ];
 
+    /* ================= RELATIONS ================= */
+
     public function usahaPengerajin()
     {
         return $this->hasMany(UsahaPengerajin::class, 'pengerajin_id');

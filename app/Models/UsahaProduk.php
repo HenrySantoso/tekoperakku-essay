@@ -12,6 +12,8 @@ class UsahaProduk extends Model
         'produk_id',
     ];
 
+    /* ================= RELATIONS ================= */
+
     // Relasi ke Usaha
     public function usaha()
     {

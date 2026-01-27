@@ -13,6 +13,8 @@ class FotoProduk extends Model
         'file_foto_produk'
     ];
 
+    /* ================= RELATIONS ================= */
+
     public function produk()
     {
         return $this->belongsTo(Produk::class, 'produk_id');

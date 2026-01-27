@@ -48,4 +48,9 @@ class Produk extends Model
     {
         return $this->belongsToMany(Usaha::class, 'usaha_produk');
     }
+
+    public function orderItems()
+    {
+        return $this->hasMany(OrderItem::class);
+    }
 }

@@ -13,6 +13,8 @@ class UsahaJenis extends Model
         'jenis_usaha_id',
     ];
 
+    /* ================= RELATIONS ================= */
+
     // Relasi ke Usaha
     public function usaha()
     {

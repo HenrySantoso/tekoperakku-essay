@@ -12,6 +12,8 @@ class JenisUsaha extends Model
         'nama_jenis_usaha',
     ];
 
+    /* ================= RELATIONS ================= */
+
     public function usahaJenis()
     {
         return $this->hasMany(UsahaJenis::class, 'jenis_usaha_id');
