@@ -35,7 +35,27 @@ Route::get('produk/{slug}', [PageController::class, 'singleProduct'])->name('gue
 //midtrans
 Route::post('add-to-cart/{id}', [PageController::class, 'addToCart'])->name('cart.add');
 Route::get('buy-now', [PageController::class, 'buyNow'])->name('buy.now');
-Route::post('checkout/{produk}', [CustomerController::class, 'checkout'])->name('checkout');
+// Route::post('checkout/{produk}', [CustomerController::class, 'checkout'])->name('checkout');
+Route::post('/cart/add/{produk}', [CustomerController::class, 'add'])
+    ->middleware('auth')
+    ->name('cart.add');
+
+Route::post('/order/{produk}', [CustomerController::class, 'createOrder'])
+    ->name('order.create')
+    ->middleware('auth');
+
+Route::get('/checkout/{orderCode}', [CustomerController::class, 'checkoutPage'])
+    ->name('checkout.page')
+    ->middleware('auth');
+
+Route::get('/payment/success', function () {
+    return view('guest.pages.payment-success');
+});
+
+Route::get('/payment/pending', function () {
+    return view('guest.pages.payment-pending');
+});
+
 
 
 Route::middleware(['role:admin'])->group(function () {

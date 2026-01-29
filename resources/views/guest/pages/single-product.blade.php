@@ -133,8 +133,9 @@
                         </div>
 
                         <div class="action-buttons">
-                            <form action="{{ route('cart.add', $produk->id) }}" method="POST" class="add-to-cart-form">
+                            <form id="purchaseForm" method="POST">
                                 @csrf
+
                                 <div class="quantity-wrapper">
                                     <button type="button" class="qty-btn" onclick="decreaseQty()">−</button>
                                     <input type="number" name="quantity" id="quantityInput" value="1"
@@ -143,12 +144,13 @@
                                 </div>
 
                                 <div class="btn-group">
-                                    <button type="submit" class="btn btn-outline-primary">
+                                    <button type="button" class="btn btn-outline-primary"
+                                        onclick="handleAuthAction('{{ route('cart.add', $produk->id) }}')">
                                         <i class="fa fa-shopping-cart"></i> Tambah ke Keranjang
                                     </button>
 
-                                    <button type="submit" formaction="{{ route('checkout', $produk->id) }}"
-                                        class="btn btn-primary">
+                                    <button type="button" class="btn btn-primary"
+                                        onclick="handleAuthAction('{{ route('order.create', $produk->id) }}')">
                                         <i class="fa fa-bolt"></i> Beli Sekarang
                                     </button>
                                 </div>
@@ -200,6 +202,28 @@
             </div>
         </div>
     </section>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header border-0">
+                    <h5 class="modal-title">Login Dulu</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="text-muted">
+                        Kamu harus login untuk melanjutkan pembelian
+                    </p>
+
+                    <a href="{{ route('login') }}" class="btn btn-primary w-100">
+                        Login Sekarang
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @endsection
 
 @push('scripts')
@@ -291,5 +315,22 @@
                 });
             }
         });
+    </script>
+
+    {{-- modal --}}
+    <script>
+        function handleAuthAction(actionUrl) {
+            const isLoggedIn = {{ Auth::check() ? 'true' : 'false' }};
+
+            if (!isLoggedIn) {
+                const modal = new bootstrap.Modal(document.getElementById('loginModal'));
+                modal.show();
+                return;
+            }
+
+            const form = document.getElementById('purchaseForm');
+            form.action = actionUrl;
+            form.submit();
+        }
     </script>
 @endpush
