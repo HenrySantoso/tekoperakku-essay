@@ -1,5 +1,5 @@
 @extends('guest.layouts.main')
-@section('title', 'Masuk')
+@section('title', 'Buat Akun')
 @push('styles')
     <link rel="stylesheet" href="{{ asset('assets/css/login-style.css') }}">
 @endpush
@@ -7,9 +7,9 @@
 @section('content')
 <div class="login-page-wrapper">
     <div class="login-card">
-        <h2 class="mb-4">Masuk</h2>
+        <h2 class="mb-4">Buat Akun</h2>
 
-        <form action="{{ route('login') }}" method="POST">
+        <form action="{{ route('register') }}" method="POST">
             @csrf
             <div class="form-group mb-3">
                 <label for="email" class="form-label">Email</label>
@@ -41,16 +41,11 @@
                 </div>
             @endif
 
-            <button type="submit" class="btn-login w-100">Masuk</button>
+            <button type="submit" class="btn-login w-100">Buat Akun</button>
 
             <div class="text-center mt-3">
-                <span class="text-muted">Lupa kata sandi?
-                    <a href="#" class="link-primary">Ubah kata sandi</a>
-                </span>
-            </div>
-            <div class="text-center mt-3">
-                <span class="text-muted">Belum punya akun?
-                    <a href="{{ route('registerForm') }}" class="link-primary">Buat Akun</a>
+                <span class="text-muted">Saya sudah punya akun
+                    <a href="{{ route('loginForm') }}" class="link-primary">Masuk</a>
                 </span>
             </div>
         </form>

@@ -9,28 +9,68 @@ use App\Models\User;
 
 class AuthController extends Controller
 {
+    public function showRegisterForm()
+    {
+        return view('auth.register'); // arahkan ke view register
+    }
+
+    public function register(Request $request)
+    {
+        // dd($request->all());
+        // Validasi input
+        $request->validate([
+            'email' => 'required|email|unique:users,email',
+            'password' => 'required|min:8', // `confirmed` untuk validasi confirm_password
+        ]);
+
+        // Buat user baru
+        $user = new User();
+        $user->email = $request->email;
+        $user->password = bcrypt($request->password); // Enkripsi password
+        $user->role = 'customer'; // Atur peran default
+        $user->save(); // Simpan user ke database
+
+        // Redirect ke halaman login dengan pesan sukses
+        return redirect()->route('loginForm')->with('status', 'Registrasi berhasil. Silakan masuk.');
+    }
+
     public function showLoginForm()
     {
         return view('auth.login'); // arahkan ke view login
     }
 
+    // public function login(Request $request)
+    // {
+    //     $credentials = $request->only('username', 'password');
+
+    //     if (Auth::attempt($credentials)) {
+    //         $request->session()->regenerate();
+    //         return redirect()->intended('/admin/profile'); // sesuaikan dengan tujuan
+    //     }
+
+    //     // return back()->withErrors([
+    //     //     'email' => 'Email atau password salah.',
+    //     // ])->onlyInput('email');
+
+    //     return back()->withErrors([
+    //         'username' => 'Nama atau password salah.',
+    //     ])->onlyInput('username');
+    // }
+
     public function login(Request $request)
     {
-        $credentials = $request->only('username', 'password');
+        $credentials = $request->only('email', 'password');
 
         if (Auth::attempt($credentials)) {
             $request->session()->regenerate();
             return redirect()->intended('/admin/profile'); // sesuaikan dengan tujuan
         }
 
-        // return back()->withErrors([
-        //     'email' => 'Email atau password salah.',
-        // ])->onlyInput('email');
-
         return back()->withErrors([
-            'username' => 'Nama atau password salah.',
-        ])->onlyInput('username');
+            'email' => 'Email atau password salah.',
+        ])->onlyInput('email');
     }
+
     public function logout(Request $request)
     {
         Auth::logout();

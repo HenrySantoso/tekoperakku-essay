@@ -1,9 +1,6 @@
 <?php
-use Illuminate\Support\Facades\Auth;
-use App\Http\Middleware\RoleCheck;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\AuthController;
-use App\Http\Controllers\Admin\ProfileController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PengerajinController;
 use App\Http\Controllers\Admin\ProdukController;
@@ -16,8 +13,11 @@ use App\Http\Controllers\Admin\UsahaJenisController;
 use App\Http\Controllers\Admin\UsahaProdukController;
 use App\Http\Controllers\Guest\PageController;
 use App\Http\Controllers\Admin\ExportController;
+use App\Http\Controllers\Customer\CustomerController;
 
 // Authentication Routes
+Route::get('register', [AuthController::class, 'showRegisterForm'])->name('registerForm');
+Route::post('register', [AuthController::class, 'register'])->name('register');
 Route::get('login', [AuthController::class, 'showLoginForm'])->name('loginForm');
 Route::post('login', [AuthController::class, 'login'])->name('login');
 
@@ -31,6 +31,11 @@ Route::get('katalog', [PageController::class, 'katalog'])->name('guest-katalog')
 Route::get('detail-usaha/{usaha}', [PageController::class, 'detailUsaha'])->name('guest-detail-usaha');
 Route::get('produk/kategori/{slug}', [PageController::class, 'productsByCategory'])->name('guest-productsByCategory');
 Route::get('produk/{slug}', [PageController::class, 'singleProduct'])->name('guest-singleProduct');
+
+//midtrans
+Route::post('add-to-cart/{id}', [PageController::class, 'addToCart'])->name('cart.add');
+Route::get('buy-now', [PageController::class, 'buyNow'])->name('buy.now');
+Route::post('checkout/{produk}', [CustomerController::class, 'checkout'])->name('checkout');
 
 
 Route::middleware(['role:admin'])->group(function () {
