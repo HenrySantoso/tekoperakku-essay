@@ -14,6 +14,8 @@ class Order extends Model
         'order_code',
         'total_amount',
         'status',
+        'payment_type',
+        'transaction_status',
     ];
 
     /* ================= RELATIONS ================= */

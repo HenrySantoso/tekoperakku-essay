@@ -15,6 +15,7 @@ class Payment extends Model
         'transaction_id',
         'snap_token',
         'transaction_status',
+        'status_code',
         'gross_amount',
         'transaction_time',
     ];

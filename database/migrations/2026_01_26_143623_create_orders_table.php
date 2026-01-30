@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->enum('status', [
                 'pending',
                 'paid',
+                'unpaid',
                 'cancelled',
                 'refunded'
             ])->default('pending');

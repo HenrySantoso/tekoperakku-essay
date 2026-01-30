@@ -29,7 +29,7 @@ class CustomerController extends Controller
         DB::beginTransaction();
         try {
             $order = Order::create([
-                'order_code' => 'ORD-' . Str::upper(Str::random(10)),
+                'order_code' => 'ORD-' . now()->format('YmdHis') . '-' . Str::upper(Str::random(5)),
                 'user_id' => $user->id,
                 'total_amount' => $produk->harga * $qty,
                 'status' => 'unpaid',
@@ -48,8 +48,8 @@ class CustomerController extends Controller
 
             Payment::create([
                 'order_id' => $order->id,
-                'status' => 'INIT',
                 'gross_amount' => $order->total_amount,
+                'transaction_status' => 'pending',
             ]);
 
             DB::commit();
@@ -98,6 +98,37 @@ class CustomerController extends Controller
 
         $snapToken = Snap::getSnapToken($params);
 
+        $payment = Payment::whereHas('order', function ($query) use ($orderCode) {
+            $query->where('order_code', $orderCode)
+                ->where('user_id', Auth::id());
+        })->firstOrFail();
+
+        $payment->update([
+            'snap_token' => $snapToken,
+        ]);
+
         return view('guest.pages.checkout', compact('order', 'snapToken'));
+    }
+
+    public function paymentPending($orderCode)
+    {
+        $order = Order::where('order_code', $orderCode)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $payment = $order->payment; // relasi
+
+        return view('guest.pages.payment-pending', compact('order', 'payment'));
+    }
+
+    public function paymentSuccess($orderCode)
+    {
+        $order = Order::where('order_code', $orderCode)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $payment = $order->payment;
+
+        return view('guest.pages.payment-success', compact('order', 'payment'));
     }
 }

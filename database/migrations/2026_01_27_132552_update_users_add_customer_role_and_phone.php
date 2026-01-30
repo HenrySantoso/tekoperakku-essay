@@ -15,12 +15,11 @@ return new class extends Migration {
             $table->string('phone')->nullable()->after('email');
 
             // 2. Ubah enum role → tambah customer
-            $table->enum('role', ['admin', 'guest', 'customer'])
+            $table->enum('role', ['admin', 'guest', 'customer', 'pengerajin'])
                 ->default('customer')
                 ->change();
         });
     }
-
 
     /**
      * Reverse the migrations.

@@ -130,11 +130,11 @@
     <script>
         document.getElementById('pay-button').addEventListener('click', function() {
             snap.pay('{{ $snapToken }}', {
-                onSuccess: function() {
-                    window.location.href = '/payment/success';
-                },
                 onPending: function() {
-                    window.location.href = '/payment/pending';
+                    window.location.href = "{{ route('payment.pending', $order->order_code) }}";
+                },
+                onSuccess: function() {
+                    window.location.href = "{{ route('payment.success', $order->order_code) }}";
                 },
                 onError: function() {
                     alert('Pembayaran gagal');

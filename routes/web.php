@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\UsahaProdukController;
 use App\Http\Controllers\Guest\PageController;
 use App\Http\Controllers\Admin\ExportController;
 use App\Http\Controllers\Customer\CustomerController;
+use App\Http\Controllers\Midtrans\MidtransCallbackController;
 
 // Authentication Routes
 Route::get('register', [AuthController::class, 'showRegisterForm'])->name('registerForm');
@@ -48,14 +49,15 @@ Route::get('/checkout/{orderCode}', [CustomerController::class, 'checkoutPage'])
     ->name('checkout.page')
     ->middleware('auth');
 
-Route::get('/payment/success', function () {
-    return view('guest.pages.payment-success');
-});
+Route::get('/payment/pending/{orderCode}', [CustomerController::class, 'paymentPending'])
+    ->name('payment.pending')
+    ->middleware('auth');
 
-Route::get('/payment/pending', function () {
-    return view('guest.pages.payment-pending');
-});
+Route::get('/payment/success/{orderCode}', [CustomerController::class, 'paymentSuccess'])
+    ->name('payment.success')
+    ->middleware('auth');
 
+Route::post('/midtrans/callback', [MidtransCallbackController::class, 'handle']);
 
 
 Route::middleware(['role:admin'])->group(function () {
