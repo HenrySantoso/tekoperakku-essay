@@ -57,6 +57,10 @@ Route::get('/payment/success/{orderCode}', [CustomerController::class, 'paymentS
     ->name('payment.success')
     ->middleware('auth');
 
+Route::get('/payment/failed/{orderCode}', [CustomerController::class, 'paymentFailed'])
+    ->name('payment.failed')
+    ->middleware('auth');
+
 Route::post('/midtrans/callback', [MidtransCallbackController::class, 'handle']);
 
 

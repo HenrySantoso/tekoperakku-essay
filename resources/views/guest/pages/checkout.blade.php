@@ -136,11 +136,11 @@
                 onSuccess: function() {
                     window.location.href = "{{ route('payment.success', $order->order_code) }}";
                 },
-                onError: function() {
-                    alert('Pembayaran gagal');
-                },
                 onClose: function() {
-                    alert('Anda menutup popup pembayaran tanpa menyelesaikan pembayaran');
+                    window.location.href = "{{ route('payment.pending', $order->order_code) }}";
+                },
+                onError: function() {
+                    window.location.href = "{{ route('payment.failed', $order->order_code) }}";
                 }
             });
         });

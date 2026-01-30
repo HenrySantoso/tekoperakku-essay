@@ -131,4 +131,15 @@ class CustomerController extends Controller
 
         return view('guest.pages.payment-success', compact('order', 'payment'));
     }
+
+    public function paymentFailed($orderCode)
+    {
+        $order = Order::where('order_code', $orderCode)
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        $payment = $order->payment;
+
+        return view('guest.pages.payment-failed', compact('order', 'payment'));
+    }
 }
